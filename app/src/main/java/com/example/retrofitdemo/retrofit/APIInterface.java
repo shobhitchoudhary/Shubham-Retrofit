@@ -5,11 +5,15 @@ import com.example.retrofitdemo.model.dummy.DemoResponse;
 import com.example.retrofitdemo.model.register.RegisterUserReqBody;
 import com.example.retrofitdemo.model.register.response.CreateUserMain;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface APIInterface {
     @GET("customer")
@@ -20,4 +24,10 @@ public interface APIInterface {
 
     @GET("users/2")
     Call<DemoResponse> getDummyApi();
+
+    /*@GET("users/{user_id}/playlists")
+    Call<List<Playlist> getUserPlaylists(@Path(value = "user_id", encoded = true) String userId);
+*/
+    @GET("customer/{customer_id}/bookings")
+    Call<ResponseBody> makeDynamicUrlApiCall(@Path(value = "customer_id", encoded = true) String customerId);
 }

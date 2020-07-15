@@ -13,6 +13,7 @@ import com.example.retrofitdemo.retrofit.APIClient;
 import com.example.retrofitdemo.retrofit.APIInterface;
 import com.google.gson.Gson;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,13 +29,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        createUser();
+        getDynamicResponseData();
+        //createUser();
         //getAllCustomer();
         //getDummyApi();
     }
 
+    private void getDynamicResponseData(){
+        Call<ResponseBody> call =  apiInterface.makeDynamicUrlApiCall("s8L3Rg690Q");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(TAG+"dynamic user response = "+response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(TAG+"dynamic user  error = "+t.getMessage());
+
+            }
+        });
+    }
+
     private void createUser() {
-        RegisterUserReqBody registerUserReqBody = new RegisterUserReqBody();
+        final RegisterUserReqBody registerUserReqBody = new RegisterUserReqBody();
         registerUserReqBody.setPhoneNumber("5489504764940");
         Call<CreateUserMain> call = apiInterface.createUser(registerUserReqBody);
         call.enqueue(new Callback<CreateUserMain>() {
@@ -45,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     // New User
                     System.out.println(TAG+"register new user response = "+response.body());
+                    CreateUserMain createAlreadyRegisteredMain = response.body();
                 }else { // Existing User
                     Gson gson = new Gson();
                     CreateAlreadyRegisteredMain createAlreadyRegisteredMain = gson.fromJson(response.errorBody().charStream(),CreateAlreadyRegisteredMain.class);
