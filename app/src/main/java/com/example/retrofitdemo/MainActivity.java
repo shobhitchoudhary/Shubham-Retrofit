@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.retrofitdemo.model.OtpRequestBody;
 import com.example.retrofitdemo.model.getAllCustomer.AllCustomerListMain;
 import com.example.retrofitdemo.model.dummy.DemoResponse;
 import com.example.retrofitdemo.model.register.RegisterUserReqBody;
@@ -29,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        getDynamicResponseData();
+        //getDynamicResponseData();
         //createUser();
         //getAllCustomer();
         //getDummyApi();
+        createOtp();
     }
 
     private void getDynamicResponseData(){
@@ -105,6 +107,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<DemoResponse> call, Throwable t) {
                 System.out.println(TAG+" demo error = "+t.getMessage());
+            }
+        });
+    }
+
+    private void createOtp(){
+        OtpRequestBody requestBody = new OtpRequestBody();
+        requestBody.setMobileCountryCode("+91");
+        requestBody.setMobileNo("8553893393");
+        Call<ResponseBody> call = apiInterface.createOtp("53e7f0d9-4711-4c21-bcd1-cf76354e771e",requestBody);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(TAG+" get otp response = "+response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(TAG+" get otp error = "+t.getMessage());
             }
         });
     }

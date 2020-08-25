@@ -1,5 +1,6 @@
 package com.example.retrofitdemo.retrofit;
 
+import com.example.retrofitdemo.model.OtpRequestBody;
 import com.example.retrofitdemo.model.getAllCustomer.AllCustomerListMain;
 import com.example.retrofitdemo.model.dummy.DemoResponse;
 import com.example.retrofitdemo.model.register.RegisterUserReqBody;
@@ -14,6 +15,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface APIInterface {
     @GET("customer")
@@ -30,4 +32,7 @@ public interface APIInterface {
 */
     @GET("customer/{customer_id}/bookings")
     Call<ResponseBody> makeDynamicUrlApiCall(@Path(value = "customer_id", encoded = true) String customerId);
+
+    @POST("user/generate/otp")
+    Call<ResponseBody> createOtp(@Query("companyId") String companyId, @Body OtpRequestBody requestBody);
 }
