@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.retrofitdemo.model.Blogs.BlogsMainPojo;
 import com.example.retrofitdemo.model.OtpRequestBody;
 import com.example.retrofitdemo.model.getAllCustomer.AllCustomerListMain;
 import com.example.retrofitdemo.model.dummy.DemoResponse;
@@ -13,6 +14,8 @@ import com.example.retrofitdemo.model.register.response.alreadyRegisteredUser.Cr
 import com.example.retrofitdemo.retrofit.APIClient;
 import com.example.retrofitdemo.retrofit.APIInterface;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,7 +37,23 @@ public class MainActivity extends AppCompatActivity {
         //createUser();
         //getAllCustomer();
         //getDummyApi();
-        createOtp();
+        //createOtp();
+        getBlogsPost();
+    }
+
+    private void getBlogsPost(){
+        Call<ArrayList<BlogsMainPojo>> call = apiInterface.getBlogs(1,10);
+        call.enqueue(new Callback<ArrayList<BlogsMainPojo>>() {
+            @Override
+            public void onResponse(Call<ArrayList<BlogsMainPojo>> call, Response<ArrayList<BlogsMainPojo>> response) {
+                System.out.println(TAG+"blogs response = "+response);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<BlogsMainPojo>> call, Throwable t) {
+                System.out.println(TAG+"blogs error = "+t.getMessage());
+            }
+        });
     }
 
     private void getDynamicResponseData(){

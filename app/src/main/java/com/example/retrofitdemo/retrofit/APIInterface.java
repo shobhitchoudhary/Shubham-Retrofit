@@ -1,10 +1,13 @@
 package com.example.retrofitdemo.retrofit;
 
+import com.example.retrofitdemo.model.Blogs.BlogsMainPojo;
 import com.example.retrofitdemo.model.OtpRequestBody;
 import com.example.retrofitdemo.model.getAllCustomer.AllCustomerListMain;
 import com.example.retrofitdemo.model.dummy.DemoResponse;
 import com.example.retrofitdemo.model.register.RegisterUserReqBody;
 import com.example.retrofitdemo.model.register.response.CreateUserMain;
+
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -37,4 +40,6 @@ public interface APIInterface {
     Call<ResponseBody> createOtp(@Query("companyId") String companyId, @Body OtpRequestBody requestBody);
 
 
+    @GET("blogs")
+    Call<ArrayList<BlogsMainPojo>> getBlogs(@Query("page") int pageNumber, @Query("limit") int limit);
 }
