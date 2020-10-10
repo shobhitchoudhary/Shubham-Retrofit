@@ -35,4 +35,6 @@ public interface APIInterface {
 
     @POST("user/generate/otp")
     Call<ResponseBody> createOtp(@Query("companyId") String companyId, @Body OtpRequestBody requestBody);
+
+
 }
